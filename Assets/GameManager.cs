@@ -9,8 +9,46 @@ public class GameManager : MonoBehaviour
     public LayerMask RaycastableMask;
     public float CameraMoveSpeed;
 
+    public GameObject GameBoard;
+    public GameObject CellPrefab;
+
+    public int NumRows;
+    public int NumCols;
+
     private Vector3 _lastRightClickMousePosition;
     private Vector3 _lastRightClickCameraPosition;
+    
+    private GenericGrid<Cell> _board;
+    
+    void Awake()
+    {
+        _board = new GenericGrid<Cell>(NumRows, NumCols);
+        for (int i = 0; i < NumRows * NumCols; i++)
+        {
+            _board.data.Add(null);
+        }
+        
+        for (int row = 0; row < NumRows; row++) {
+            for (int col = 0; col < NumCols; col++) {
+                Debug.Log("Row: " + row + "Col: " + col);
+                var newCellObject = Instantiate(CellPrefab, GameBoard.transform);
+                var newCell = newCellObject.GetComponent<Cell>();
+                newCellObject.transform.position = new Vector3(col * newCell.size, row * newCell.size);
+                newCell.row = row;
+                newCell.col = col;
+                _board[row, col] = newCell;
+            }
+        }
+        
+        for (int r = 1; r < NumRows-1; r++) {
+            for (int c = 1; c < NumCols-1; c++) {
+                _board[r, c].Neighbours[Cell.Direction.Up] = _board[r + 1, c];
+                _board[r, c].Neighbours[Cell.Direction.Down] = _board[r - 1, c];
+                _board[r, c].Neighbours[Cell.Direction.Left] = _board[r, c - 1];
+                _board[r, c].Neighbours[Cell.Direction.Right] = _board[r, c + 1];
+            }
+        }
+    }
 
     void Update()
     {

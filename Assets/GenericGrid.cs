@@ -6,9 +6,16 @@ using UnityEngine;
 public class GenericGrid<T>
 {
     /// <summary>The secondary dimension list</summary>
-    [SerializeField] public List<T> data = new List<T>();
+    [SerializeField] public List<T> data;
     [SerializeField] public int rows;
     [SerializeField] public int cols;
+    
+    public GenericGrid(int rowsIn, int colsIn)
+    {
+        data = new List<T>(rowsIn * colsIn);
+        rows = rowsIn;
+        cols = colsIn;
+    }
 
     /// <summary>List indexer</summary>
     public T this[int i]
