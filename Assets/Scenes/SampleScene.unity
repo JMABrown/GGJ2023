@@ -315,6 +315,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &738515898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738515899}
+  m_Layer: 6
+  m_Name: SpriteBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738515899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738515898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +398,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -408,6 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1449331830}
   - component: {fileID: 1449331831}
+  - component: {fileID: 1449331832}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -444,12 +475,25 @@ MonoBehaviour:
   MainCamera: {fileID: 963194227}
   RaycastableMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
   CameraMoveSpeed: -0.15
-  GameBoard: {fileID: 2467047}
-  CellPrefab: {fileID: 1943690734644633430, guid: eb1b83604ad05934fbcb2fc56fc81d64, type: 3}
-  NumRows: 10
-  NumCols: 10
+  GameBoard: {fileID: 738515898}
+  CellPrefab: {fileID: 7434255543127703179, guid: 0c8729ae9216a3346a1615eef905637e, type: 3}
+  NumRows: 50
+  NumCols: 50
+--- !u!114 &1449331832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449331829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860181fb62c829b488a7d6159d40583a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlantSprites: {fileID: 11400000, guid: ea22cef12f57c044085d1bfa524342c2, type: 2}
 --- !u!1 &1962352752
 GameObject:
   m_ObjectHideFlags: 0

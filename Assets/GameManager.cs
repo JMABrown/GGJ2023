@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
         
         for (int row = 0; row < NumRows; row++) {
             for (int col = 0; col < NumCols; col++) {
-                Debug.Log("Row: " + row + "Col: " + col);
                 var newCellObject = Instantiate(CellPrefab, GameBoard.transform);
                 var newCell = newCellObject.GetComponent<Cell>();
                 newCellObject.transform.position = new Vector3(col * newCell.size, row * newCell.size);
@@ -48,6 +47,11 @@ public class GameManager : MonoBehaviour
                 _board[r, c].Neighbours[Cell.Direction.Right] = _board[r, c + 1];
             }
         }
+
+        int randCol = Random.Range(0, NumRows-1);
+        int randRow = Random.Range(0, NumCols-1);
+        
+        _board[randRow, randCol].PlantLevel = 1;
     }
 
     void Update()
@@ -59,11 +63,28 @@ public class GameManager : MonoBehaviour
 
             RaycastHit hit;
             Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f, RaycastableMask))
+            //if (Physics.Raycast(ray, out hit, 100.0f, RaycastableMask))
+            //if (Physics2D.Raycast(MainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero)) ;
+            //{
+            //    if (hit.transform.TryGetComponent<Cell>(out Cell hitCell))
+            //    {
+            //        Debug.Log("Row:" + hitCell.row + ", Col:" + hitCell.col);
+            //    }
+            //}
+            RaycastHit2D hit2D = Physics2D.Raycast(MainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit2D.collider != null)
             {
-                if (hit.transform.TryGetComponent<Cell>(out Cell hitCell))
+                if (hit2D.transform.TryGetComponent(out Cell hitCell))
                 {
-                    //hitCell
+                    //Debug.Log("Row:" + hitCell.row + ", Col:" + hitCell.col);
+                    if (hitCell.Neighbours[Cell.Direction.Up].PlantLevel > 0
+                        || hitCell.Neighbours[Cell.Direction.Down].PlantLevel > 0
+                        || hitCell.Neighbours[Cell.Direction.Left].PlantLevel > 0
+                        || hitCell.Neighbours[Cell.Direction.Right].PlantLevel > 0
+                        || hitCell.PlantLevel > 0)
+                    {
+                        hitCell.PlantLevel += 1;
+                    }
                 }
             }
         }
