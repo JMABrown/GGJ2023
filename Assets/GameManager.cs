@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     public LayerMask RaycastableMask;
     public float CameraMoveSpeed;
 
-    public GameObject GameBoard;
+    [FormerlySerializedAs("GameBoard")] public GameObject GameBoardParent;
     public GameObject CellPrefab;
 
     public int NumRows;
@@ -18,40 +19,52 @@ public class GameManager : MonoBehaviour
     private Vector3 _lastRightClickMousePosition;
     private Vector3 _lastRightClickCameraPosition;
     
-    private GenericGrid<Cell> _board;
+    public GenericGrid<Cell> GameBoard;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+            }
+
+            return _instance;
+        }
+    }
+    
+    private static GameManager _instance;
     
     void Awake()
     {
-        _board = new GenericGrid<Cell>(NumRows, NumCols);
+        GameBoard = new GenericGrid<Cell>(NumRows, NumCols);
         for (int i = 0; i < NumRows * NumCols; i++)
         {
-            _board.data.Add(null);
+            GameBoard.data.Add(null);
         }
         
         for (int row = 0; row < NumRows; row++) {
             for (int col = 0; col < NumCols; col++) {
-                var newCellObject = Instantiate(CellPrefab, GameBoard.transform);
+                var newCellObject = Instantiate(CellPrefab, GameBoardParent.transform);
                 var newCell = newCellObject.GetComponent<Cell>();
                 newCellObject.transform.position = new Vector3(col * newCell.size, row * newCell.size);
                 newCell.row = row;
                 newCell.col = col;
-                _board[row, col] = newCell;
+                GameBoard[row, col] = newCell;
             }
         }
         
         for (int r = 1; r < NumRows-1; r++) {
             for (int c = 1; c < NumCols-1; c++) {
-                _board[r, c].Neighbours[Cell.Direction.Up] = _board[r + 1, c];
-                _board[r, c].Neighbours[Cell.Direction.Down] = _board[r - 1, c];
-                _board[r, c].Neighbours[Cell.Direction.Left] = _board[r, c - 1];
-                _board[r, c].Neighbours[Cell.Direction.Right] = _board[r, c + 1];
+                GameBoard[r, c].Neighbours[Cell.Direction.Up] = GameBoard[r + 1, c];
+                GameBoard[r, c].Neighbours[Cell.Direction.Down] = GameBoard[r - 1, c];
+                GameBoard[r, c].Neighbours[Cell.Direction.Left] = GameBoard[r, c - 1];
+                GameBoard[r, c].Neighbours[Cell.Direction.Right] = GameBoard[r, c + 1];
             }
         }
 
-        int randCol = Random.Range(0, NumRows-1);
-        int randRow = Random.Range(0, NumCols-1);
-        
-        _board[randRow, randCol].PlantLevel = 1;
+        GameBoard.GetRandomCell().PlantLevel = 1;
     }
 
     void Update()

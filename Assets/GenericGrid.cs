@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class GenericGrid<T>
@@ -50,6 +51,13 @@ public class GenericGrid<T>
             list.Add(data[r * cols + c]);
         }
         return list;
+    }
+
+    public T GetRandomCell()
+    {
+        int randCol = Random.Range(0, rows-1);
+        int randRow = Random.Range(0, cols-1);
+        return this[randRow, randCol];
     }
 
     /// <summary>The number of elements in the list</summary>
