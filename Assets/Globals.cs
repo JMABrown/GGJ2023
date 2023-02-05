@@ -8,4 +8,5 @@ public static class Globals
     public const float UnloadDelay = 1f;
     public const float MinWaitTime = 15f;
     public const float MaxWaitTime = 30f;
+    public const float WanderTime = 0.33f;
 }

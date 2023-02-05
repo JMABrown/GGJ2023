@@ -39,6 +39,11 @@ public class Cell : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        Neighbours[Direction.Up] = null;
+        Neighbours[Direction.Down] = null;
+        Neighbours[Direction.Left] = null;
+        Neighbours[Direction.Right] = null;
     }
 
     public enum Direction {

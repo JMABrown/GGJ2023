@@ -55,12 +55,12 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        for (int r = 1; r < NumRows-1; r++) {
-            for (int c = 1; c < NumCols-1; c++) {
-                GameBoard[r, c].Neighbours[Cell.Direction.Up] = GameBoard[r + 1, c];
-                GameBoard[r, c].Neighbours[Cell.Direction.Down] = GameBoard[r - 1, c];
-                GameBoard[r, c].Neighbours[Cell.Direction.Left] = GameBoard[r, c - 1];
-                GameBoard[r, c].Neighbours[Cell.Direction.Right] = GameBoard[r, c + 1];
+        for (int r = 0; r < NumRows; r++) {
+            for (int c = 0; c < NumCols; c++) {
+                if (r + 1 < NumRows) { GameBoard[r, c].Neighbours[Cell.Direction.Up] = GameBoard[r + 1, c]; }
+                if (r - 1 >= 0) { GameBoard[r, c].Neighbours[Cell.Direction.Down] = GameBoard[r - 1, c]; }
+                if (c - 1 >= 0) { GameBoard[r, c].Neighbours[Cell.Direction.Left] = GameBoard[r, c - 1]; }
+                if (c + 1 < NumCols) { GameBoard[r, c].Neighbours[Cell.Direction.Right] = GameBoard[r, c + 1]; }
             }
         }
 
