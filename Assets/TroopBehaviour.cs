@@ -78,10 +78,7 @@ public class TroopBehaviour : MonoBehaviour
             _wanderPosition = new Vector3(wanderCellPosition.x + Random.insideUnitCircle.x*0.2f,
                 wanderCellPosition.y + Random.insideUnitCircle.y*0.2f,
                 0f);
-
-            _moving = false;
-            _moving = true;
-
+            
             _moving = true;
             DOTween.To(() => transform.position, x => transform.position = x, _wanderPosition, Globals.WanderTime)
                 .SetEase(Ease.Linear).onComplete += OnMoveComplete;
