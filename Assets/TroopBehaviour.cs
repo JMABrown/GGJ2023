@@ -17,6 +17,8 @@ public class TroopBehaviour : MonoBehaviour
     private Coroutine _troopShootRoutine;
 
     private Vector3 _wanderPosition;
+
+    public LineRenderer _bulletLine;
     
     void Start()
     {
@@ -75,7 +77,7 @@ public class TroopBehaviour : MonoBehaviour
             if (randomChoiceCell.PlantLevel != 0)
             {
                 Debug.Log("Random choice has plant level");
-                break;
+                continue;
             }
             
             var wanderCellPosition = randomChoiceCell.transform.position;
@@ -94,6 +96,29 @@ public class TroopBehaviour : MonoBehaviour
             yield return new WaitUntil(() => !_moving);
             
         }
+    }
+
+    private IEnumerator ShootingBrain()
+    {
+        if (Random.Range(0, 10) < 2)
+        {
+            _board = GameManager.Instance.GameBoard;
+            var position = transform.position;
+            var simplePosition = new Vector2(Mathf.Floor(position.x), Mathf.Floor(position.y));
+            var cellTrooperIsIn = _board[(int)simplePosition.y, (int)simplePosition.x];
+
+            foreach (var cell in cellTrooperIsIn.Neighbours)
+            {
+                foreach (var cellOfCell in cell.Value.Neighbours)
+                {
+                    if (cellOfCell.Value.PlantLevel > 0)
+                    {
+                        //_bulletLine.
+                    }
+                }
+            }
+        }
+        yield return null;
     }
 
     private void OnMoveComplete()

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ShipBehaviour : MonoBehaviour
 {
+    public GameObject TroopPrefab;
+    
     private Vector3 _landingPosition;
     private Vector3 _startingPosition;
 
@@ -59,6 +61,6 @@ public class ShipBehaviour : MonoBehaviour
 
     private void SpawnTrooper()
     {
-        Debug.Log("Trooper spawned");
+        Instantiate(TroopPrefab, transform.position, Quaternion.identity);
     }
 }
